@@ -1,43 +1,43 @@
-# Field-Bitrix-BR
-Esse projeto oferece uma sincronização automatizada entre o Bitrix24 e Field Control, buscando otimizar o workflow automaticamente movendo cards de negócios do CRM para a próxima etapa quando sua Ordem de Serviço correspondente é marcada como concluída na plataforma do Field.
+# Field-Bitrix
+This project provides an automated synchronization between Bitrix24 and Field Control management system, which optimizes the workflow by automatically moving CRM deals to the next stage once their corresponding Service Orders are marked as completed in the Field platform.
 
 ## 🚀 Features
-- **Rastreamento de status automático:** Realiza checks diários dentro do Field Control para buscar Ordens de Serviço que já foram concluídas.
-- **Verificação de OS:** Mapeia identificadores a partir do ID da OS cadastrado no Bitrix, e busca a Task ID dentro do Field qual contém a informação necessária para determinar se uma Ordem de Serviço foi concluída ou não.
-- **Docker App:** Projeto "contêinerizado" com docker para facilitar o deployment em outras plataformas. 
+- **Automated status tracking:** Performs daily checks on Field Control for completed Service Orders.
+- **OS Verification:** Maps identifiers to internal IDs from Bitrix, and fetches the task ID from Field which contains the info needed to determine if a Service Order was completed or not.
+- **Docker App:** Fully containerized for easy deployment on platforms.
 
 ## 📦 Tech Stack
-- **Node.js:** Ambiente principal de execução.
-- **Fetch API:** Para executar a comunicação com as bibliotecas API do Bitrix e Field Control.
-- **Docker:** Para facilitar o setup e deployment do ambiente.
+- **Node.js:** Core runtime environment.
+- **Fetch API:** For communication with Bitrix and Field Control REST APIs.
+- **Docker:** For simple and easy environment setup and deployment.
 
-## 📝 Como funciona
-1. O script busca cards de negócios que estão ativos em uma pipeline e etapa específicos dentro do CRM do Bitrix.
+## 📝 Here's how it works
+1. The script fetches active deals from a specific Bitrix24 pipeline and stage.
    
-2. Extrai o identificador da Ordem de Serviço de um campo personalizado do Bitrix. No caso deste código, é  UF_CRM_1775677796, mas você pode mudar e adequar para seu projeto.
+2. It extracts Service Order from a custom field (In this example, UF_CRM_1775677796).
    
-3. Consulta a API do Field em duas etapas. Essas duas etapas são necessárias pois a API do Field não retorna o status de conclusão da Ordem de Serviço se usarmos apenas o identificador da OS. Para obter essa informação, precisamos do Task ID(e esse é um campo que o identificador da OS *pode* nos retornar), que contém o campo "status".
+3. It queries the Field Control API in two steps. These two steps are needed because the Field API doesn't return the OS status information by fetching the OS id alone, but the Task id(which the OS id *does* return) is able to fetch us that info.
  
-     -***Primeira Etapa***: Encontramos o Task ID ao usar o identificador(o ID da Ordem de Serviço que pegamos do Bitrix).
+     -***Step 1***: We find the Task Id by using the identifier(the OS id we got from Bitrix)
    
-     -***Segunda Etapa***: Nós procuramos no endpoint /tasks pelo "status":"done"
+     -***Step 2***: We check the /tasks endpoint for a "done" status.
 
-4. Se a Task está marcada como "done", o card do negócio é automaticamente movido para o estágio alvo dentro do Bitrix24.
+6. If the task is marked as "done", the Bitrix24 deal is automatically moved to our target stage.
 
 ## ⚙️ Setup
-1. Clone o repositório.
-2. Rode `npm install`.
-3. Crie um arquivo `.env` usando de referência o `.env.example`.
-4. Mude as variáveis do arquivo .env para correlacionar com as informações verdadeiras do seu Bitrix.
-5. Roda o projeto usando `node index.js` ou `docker-compose up`.
+1. Clone the repository.
+2. Run `npm install`.
+3. Create a `.env` file based on `.env.example`.
+4. Change the variables in .env to match your actual Bitrix stage and field variables.
+5. Run the project using `node index.js` or `docker-compose up`.
 
 
 
-## 👑 Contato
+## 👑 Contact
 
-Desenvolvido por **Jessica Duarte**.
+Developed by **Jessica Duarte**.
 
-Se você tem quaisquer dúvidas ou gostaria de contribuir para o projeto, meu e-mail é jessicamirandaduarte@gmail.com
+If you have any questions or wish to collaborate, reach out to me at jessicamirandaduarte@gmail.com 
 
 ---
 
